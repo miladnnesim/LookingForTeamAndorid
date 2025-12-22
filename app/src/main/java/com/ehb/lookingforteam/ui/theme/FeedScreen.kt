@@ -7,78 +7,41 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ehb.lookingforteam.model.LftPost
 import com.ehb.lookingforteam.viewmodel.FeedViewModel
+import com.ehb.lookingforteam.viewmodel.ProfileViewModel
 
 @Composable
-fun FeedScreen(feedViewModel: FeedViewModel = viewModel()) {
+fun FeedScreen(feedViewModel: FeedViewModel, profileViewModel: ProfileViewModel) {
     val posts by feedViewModel.posts.collectAsState()
+    val myProfile by profileViewModel.profile.collectAsState()
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        Text(
-            text = "Live LFT Feed",
-            style = MaterialTheme.typography.headlineLarge,
-            color = MaterialTheme.colorScheme.primary
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // De lijst met kaarten
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-            modifier = Modifier.fillMaxSize()
-        ) {
+    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+        Text(text = "Live Feed", style = MaterialTheme.typography.headlineLarge)
+        LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.padding(top = 16.dp)) {
             items(posts) { post ->
-                LftCard(post)
+                val isMyPost = post.playerName == myProfile.name && myProfile.name.isNotEmpty()
+                LftCard(post, isMyPost) { feedViewModel.deletePost(post.id) }
             }
         }
     }
 }
 
 @Composable
-fun LftCard(post: LftPost) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
-    ) {
+fun LftCard(post: LftPost, isMyPost: Boolean, onDelete: () -> Unit) {
+    Card(modifier = Modifier.fillMaxWidth()) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(text = post.playerName, style = MaterialTheme.typography.titleMedium)
-                Text(
-                    text = post.rank,
-                    style = MaterialTheme.typography.labelLarge,
-                    color = MaterialTheme.colorScheme.secondary
-                )
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                Text(post.playerName, style = MaterialTheme.typography.titleMedium)
+                Text(post.rank, color = MaterialTheme.colorScheme.secondary)
             }
-
-            Spacer(modifier = Modifier.height(4.dp))
-
-            Text(
-                text = "${post.role} • ${post.region}",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.outline
-            )
-
+            Text("${post.role} • ${post.region}", style = MaterialTheme.typography.bodySmall)
             Spacer(modifier = Modifier.height(8.dp))
-
-            Text(text = post.message, style = MaterialTheme.typography.bodyMedium)
-
-            Spacer(modifier = Modifier.height(12.dp))
-
-            Button(
-                onClick = { /* Hier zou je later een chat kunnen openen */ },
-                modifier = Modifier.align(androidx.compose.ui.Alignment.End)
-            ) {
-                Text("Invite")
+            Text(post.message)
+            if (isMyPost) {
+                TextButton(onClick = onDelete, colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.error)) {
+                    Text("Verwijder mijn post")
+                }
             }
         }
     }

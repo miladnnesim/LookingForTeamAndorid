@@ -25,7 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.ehb.lookingforteam.ui.theme.LookingForTeamTheme
 import com.ehb.lookingforteam.ui.theme.ProfileScreen
-
+import com.ehb.lookingforteam.ui.theme.FeedScreen
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +61,7 @@ fun LookingForTeamApp() {
             Box(modifier = Modifier.padding(innerPadding)) {
                 when (currentDestination) {
                     AppDestinations.HOME -> {
-                        Greeting(name = "Valorant Player")
+                        FeedScreen()
                     }
                     AppDestinations.PROFILE -> {
                         ProfileScreen()

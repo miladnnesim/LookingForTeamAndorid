@@ -23,7 +23,7 @@ Een moderne Android applicatie gebouwd met **Kotlin** en **Jetpack Compose** waa
 ---
 
 ## 📂 Project Structuur
-De Built apk is de vinden in app/apk
+De Built apk is te vinden in app/apk
 
 De code is georganiseerd volgens de officiële Android richtlijnen:
 

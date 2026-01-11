@@ -25,6 +25,7 @@ Een moderne Android applicatie gebouwd met **Kotlin** en **Jetpack Compose** waa
 ## 📂 Project Structuur
 
 De code is georganiseerd volgens de officiële Android richtlijnen:
+De Built apk is de vinden in app/apk
 
 ```text
 app/java/com.ehb.lookingforteam/

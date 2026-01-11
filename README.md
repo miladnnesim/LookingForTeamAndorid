@@ -67,6 +67,8 @@ app/java/com.ehb.lookingforteam/
 *   **Riot API**: Automatische rank-verificatie via de officiële Riot Games API.
     
 *   **DarkMode Support**: Volledige styling voor nachtgebruik.
-    
+
+## Referenties
+Github Copilot
 
 _Ontwikkeld als onderdeel van een Android Development leertraject._
